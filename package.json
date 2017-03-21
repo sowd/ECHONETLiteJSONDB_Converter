@@ -1,0 +1,22 @@
+{
+  "name": "echonet-lite-json-db",
+  "version": "1.0.0",
+  "description": "[HEMS認証支援センターのECHONET Lite DB](https://smarthouse-center.org/sdk/download/form/29)を大和田が自分目的に変換したもの。",
+  "main": "convert.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://sowd@github.com/sowd/ECHONETLiteJSONDB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sowd/ECHONETLiteJSONDB/issues"
+  },
+  "homepage": "https://github.com/sowd/ECHONETLiteJSONDB#readme",
+  "dependencies": {
+    "node-rest-client": "^3.0.7"
+  }
+}

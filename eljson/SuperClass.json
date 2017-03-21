@@ -1,0 +1,101 @@
+{
+	"name": "SuperClass",
+	"methods": [
+		{
+			"epc": "0x80",
+			"doc": "This property indicates the ON/OFF status.<br />ON=0x30, OFF=0x31\""
+		},
+		{
+			"epc": "0x81",
+			"doc": "This property indicates the installation location<br />\"See \"\"2.2 'Installation location' property.\"\"\""
+		},
+		{
+			"epc": "0x82",
+			"doc": "This property indicates the version number of the corresponding standard.<br />First byte: Fixed at 0x00 (for future reserved). Second byte: Fixed at 0x00 (for future reserved). Third byte: Indicates the order of release in the ASCII format. Fourth byte: Fixed at 0x00 (for future reserved)."
+		},
+		{
+			"epc": "0x83",
+			"doc": "A number that allows each object to be uniquely identified.<br />\"First byte: lower-layer communication ID field 0x01-0xFD: This is a communication protocol used in the lower-layer communication and is set arbitrarily according to the protocol class in the case where unique number is assigned (not used in ECHONET Lite). 0x11-0x1F: Power line Communication Protocol a and d systems 0x31-0x3F: Low-Power Radio Communication Protocol 0x41.0x4F: Extended HBS 0x51.0x5F: IrDA 0x61.0x6F: LonTalk 0x71.0x7F: Bluetooth 0x81.0x8F: Ethernet 0x91.0x9F: IEEE802.11/11b 0xA1: Power line Communication Protocol c systems 0xB1: IPv6/Ethernet 0xB2: IPv6/6LoWPAN 0xFE: 2.17 bytes are defined by the manufacturer, and are set according to the type. 0xFF: 2.9 bytes are defined when randomly generated protocol is used in the lower-layer communication. 0x00: Identification number is not set. Second and succeeding bytes: unique number field\""
+		},
+		{
+			"epc": "0x84",
+			"doc": "This property indicates the instantaneous power consumption of the device in watts.<br />0x0000-0xFFFD(0-65535W)"
+		},
+		{
+			"epc": "0x85",
+			"doc": "This property indicates the cumulative power consumption of the device in increments of 0.001kWh.<br />0x0-0x3B9AC9FF (0-999,999.999kWh)"
+		},
+		{
+			"epc": "0x86",
+			"doc": "This property indicates the manufacturer-defined fault code.<br />First byte: Indicates the data size of the fault code field. Second to fourth bytes: Manufacturer code Fifth and succeeding bytes: Field for manufacturer-defined fault code"
+		},
+		{
+			"epc": "0x87",
+			"doc": "This property indicates the current limit setting (0-100%).<br />0x00-0x64    (=0-100%)"
+		},
+		{
+			"epc": "0x88",
+			"doc": "This property indicates whether a fault (e.g. a sensor trouble) has occurred or not.<br />\"Fault  occurred=0x41,  No  fault  has occurred=0x42\""
+		},
+		{
+			"epc": "0x89",
+			"doc": "Describes the fault.<br />\"See 2.5 'Fault Description' Property.\""
+		},
+		{
+			"epc": "0x8A",
+			"doc": "3-byte manufacturer code<br />(Defined by the ECHONET Consortium.)"
+		},
+		{
+			"epc": "0x8B",
+			"doc": "3-byte business facility code<br />(Defined by each manufacturer.)"
+		},
+		{
+			"epc": "0x8C",
+			"doc": "Identifies the product using ASCII code.<br />(Defined by each manufacturer.)"
+		},
+		{
+			"epc": "0x8D",
+			"doc": "This property indicates the production number using ASCII code.<br />(Defined by each manufacturer.)"
+		},
+		{
+			"epc": "0x8E",
+			"doc": "4-byte production date code<br />This property indicates the production date in the YYMD format (1 character = 1 byte). YY: Year (e.g. 1999=0x07CF) M: Month (e.g. December=0x0C) D: Day (e.g. 20th=0x14)"
+		},
+		{
+			"epc": "0x8F",
+			"doc": "This property indicates whether the device is operating in power-saving mode.<br />Operating in power-saving mode =0x41 Operating in normal operation mode =0x42"
+		},
+		{
+			"epc": "0x93",
+			"doc": "This property indicates whether remote control is through a public network or not.<br />Not through a public network=0x41 Through a public network=0x42"
+		},
+		{
+			"epc": "0x97",
+			"doc": "Current time (HH: MM format)<br />0x00.0x17: 0x00.0x3B (=0.23): (=0.59)"
+		},
+		{
+			"epc": "0x98",
+			"doc": "Current date (YYYY: MM: DD format)<br />1.0x270F : 1.0x0C : 1.0x1F (=1.9999) : (=1.12) : (=1.31)"
+		},
+		{
+			"epc": "0x99",
+			"doc": "This property indicates the power limit setting in watts.<br />0x0000-0xFFFF(0-65535W)"
+		},
+		{
+			"epc": "0x9A",
+			"doc": "\"This property indicates the cumulative number of days, hours, minutes or seconds for which the device has operated, using 1 byte for the unit and 4 bytes for the time.\"<br />First byte: Indicates the unit. Second: 0x41; Minute: 0x42; Hour: 0x43; Day:0x44 Second to fifth bytes: Indicates the elapsed time in the unit specified by the first byte. 0x00000000-0xFFFFFFFD (0-4294967295)"
+		},
+		{
+			"epc": "0x9D",
+			"doc": "See Appendix 1.<br />"
+		},
+		{
+			"epc": "0x9E",
+			"doc": "See Appendix 1.<br />"
+		},
+		{
+			"epc": "0x9F",
+			"doc": "See Appendix 1.<br />"
+		}
+	]
+}
