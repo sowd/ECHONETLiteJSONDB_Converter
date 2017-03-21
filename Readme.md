@@ -15,7 +15,7 @@ deviceObject_G_clean.jsonは基本的にdeviceObject_G.jsonを整形したのみ
 4. content情報は対処が困難だったため、そのまま出力している。このために、contentの中のみリソース情報が混入している。日・英も混在している。
 5. nodeProfileとsuperClass、deviceObjectの３つのファイルをまとめたall*.jsonというファイルを用意した
 
-また、本来keyはUniqueなものであるべきなので、ObjectのIDやEPCは16進数の文字列よりも10進の数値にしたほうがよいのではと思ったが、16進で記憶しているECHONET Lite Geeksも多いため、'0x****'といった文字列をkeyにすることを受け入れることにした。
+また、本来keyはUniqueなものであるべきなので、ObjectのIDやEPCは16進数の文字列よりも10進の数値にしたほうがよいのではと一瞬思ったが、自分含め16進で記憶しているECHONET Lite Geeksも多いため、オリジナル通り'0x****'といった文字列をkeyにしている。
 
 ＊_Body.json の中の文字列リソースは$から始まる文字列になっている($EPCNAME_OPERATING_STATEなど)。対応する文字列がリソースファイル(＊_EN.jsonや＊_JP.json)にある。文字列リソースを自動で埋め込んだ単一のファイルを作るには、以下のコマンドを用いる。
 
