@@ -1,4 +1,4 @@
-[HEMS認証支援センターのECHONET Lite DB](https://smarthouse-center.org/sdk/download/form/29)を独断的に変更するためのプログラムとその成果物。
+[HEMS認証支援センターのECHONET Lite DB](https://smarthouse-center.org/sdk/download/form/29)を独断的に変更するためのプログラムとその成果物。[成果物を手作業で変更していくためのリポジトリ](https://github.com/sowd/ECHONETLiteJSONDB)も用意している。
 
 元ファイルはnodeProfile.json, superClass.json, deviceObject_G.jsonの３つ。
 deviceObject_G_clean.jsonは基本的にdeviceObject_G.jsonを整形したのみだが、unitが℃のときだけ日本語になっているので、Celsiusに変換だけした。（あまり使っていないが）
@@ -17,7 +17,7 @@ deviceObject_G_clean.jsonは基本的にdeviceObject_G.jsonを整形したのみ
 
 また、本来keyはUniqueなものであるべきなので、ObjectのIDやEPCは16進数の文字列よりも10進の数値にしたほうがよいのではと思ったが、16進で記憶しているECHONET Lite Geeksも多いため、'0x****'といった文字列をkeyにすることを受け入れることにした。
 
-＊_Body.json の中の文字列リソースは**$**から始まる文字列になっている(**$EPCNAME_OPERATING_STATE**など)。対応する文字列がリソースファイル(*_EN.jsonや＊_JP.json)にある。文字列リソースを自動で埋め込んだ単一のファイルを作るには、以下のコマンドを用いる。
+＊_Body.json の中の文字列リソースは$から始まる文字列になっている($EPCNAME_OPERATING_STATEなど)。対応する文字列がリソースファイル(＊_EN.jsonや＊_JP.json)にある。文字列リソースを自動で埋め込んだ単一のファイルを作るには、以下のコマンドを用いる。
 
 ```bash
 $ npm install
