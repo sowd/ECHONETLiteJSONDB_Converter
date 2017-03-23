@@ -274,10 +274,25 @@ loadfiles.forEach( fnprefix => {
 			}) ;
 		})();}
 
-		body.elObjects[objid]	= {epcs:epcs_b,objectName:'$'+OBJ_NAME_KEY} ;
+		body.elObjects[objid]	= {objectName:'$'+OBJ_NAME_KEY , epcs:epcs_b} ;
 	}
 
 	Promise.all(promises).then(()=>{
+		// add objectid 
+		for( var objid in body.elObjects ){
+	                const OBJ_NAME_KEY = 'OBJNAME_'+objid.substring(2) ;
+			var objname_en = en.names[OBJ_NAME_KEY] ;
+			var objectid = objname_en.split(' ').map(
+				t=>{return t.charAt(0).toUpperCase() + t.substring(1);} ).join('') ;
+			if( objectid.indexOf('The')===0 )	objectid = objectid.substring(3) ;
+			if( objectid.indexOf('An')===0 )	objectid = objectid.substring(2) ;
+			var targ_o = body.elObjects[objid] ;
+			body.elObjects[objid] = {	// Ordering
+				objectId:objectid , objectName:targ_o.objectName , epcs:targ_o.epcs
+			} ;
+
+		}
+
 		fs.writeFileSync('out/'+fnprefix+'_Body.json',JSON.stringify(body, null , "\t")) ;
 		fs.writeFileSync('out/'+fnprefix+'_JP.json',JSON.stringify(jp, null , "\t")) ;
 		fs.writeFileSync('out/'+fnprefix+'_EN.json',JSON.stringify(en, null , "\t")) ;
