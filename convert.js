@@ -1,7 +1,7 @@
 var fs = require('fs');
 
-var log = function(){} ;
-//var log = console.log ;
+//var log = function(){} ;
+var log = console.log ;
 
 /*
 // Create SuperClass.json from SuperClass-SJIS.tab.txt
@@ -277,18 +277,45 @@ loadfiles.forEach( fnprefix => {
 		body.elObjects[objid]	= {objectName:'$'+OBJ_NAME_KEY , epcs:epcs_b} ;
 	}
 
+
 	Promise.all(promises).then(()=>{
+		// Post processing
+		var convToWikiName = src => src.split(' ').map(
+			t=>{return t.charAt(0).toUpperCase() + t.substring(1);} ).join('') ;
 		// add objectid 
 		for( var objid in body.elObjects ){
-	                const OBJ_NAME_KEY = 'OBJNAME_'+objid.substring(2) ;
-			var objname_en = en.names[OBJ_NAME_KEY] ;
-			var objectid = objname_en.split(' ').map(
-				t=>{return t.charAt(0).toUpperCase() + t.substring(1);} ).join('') ;
-			if( objectid.indexOf('The')===0 )	objectid = objectid.substring(3) ;
-			if( objectid.indexOf('An')===0 )	objectid = objectid.substring(2) ;
 			var targ_o = body.elObjects[objid] ;
+
+			// Add epcType
+			var newepcs = {} ;
+			for( var epc in targ_o.epcs ){
+				var epcobj = targ_o.epcs[epc] ;
+				newepcs[epc] = { epcType : convToWikiName( en.names[epcobj.epcName.substring(1)] ) } ;
+
+				// Reorder
+				['epcName','epcSize','accessModeAnno','accessModeGet','accessModeSet']
+					.forEach(kn=>{newepcs[epc][kn]=epcobj[kn];}) ;
+				var newedt = [] ;
+				epcobj.edt.forEach( edto=>{
+					// add elementType
+					var newedto = {elementType : convToWikiName( en.names[edto.elementName.substring(1)] )} ;
+					['elementName','elementSize','repeatCount','content']
+						.forEach(kn=>{newedto[kn]=edto[kn];}) ;
+					newedt.push(newedto) ;
+				} ) ;
+				newepcs[epc].edt = newedt ;
+			}
+			targ_o.epcs = newepcs ;
+
+
+			// Add objectType
+			const OBJ_NAME_KEY = 'OBJNAME_'+objid.substring(2) ;
+			var objname_en = en.names[OBJ_NAME_KEY] ;
+			var objtype = convToWikiName(objname_en) ;
+			if( objtype.indexOf('The')===0 )	objtype = objtype.substring(3) ;
+			if( objtype.indexOf('An')===0 )		objtype = objtype.substring(2) ;
 			body.elObjects[objid] = {	// Ordering
-				objectId:objectid , objectName:targ_o.objectName , epcs:targ_o.epcs
+				objectType:objtype , objectName:targ_o.objectName , epcs:targ_o.epcs
 			} ;
 
 		}
