@@ -176,6 +176,11 @@ function convPhraseToID(phrase){
 		re = re.split('--').join('-') ;
 	return re ;
 }
+function convToWikiName(src){
+	return src.replace(/ \(.+\)/g,'').replace(/[ \/\-]/g,' ').split(' ').map(
+		t=>{return t.charAt(0).toUpperCase() + t.substring(1).toLowerCase();} ).join('') ;
+}
+
 
 var all_body = {elObjects:{}} ;
 var all_jp = {names:{}} ;
@@ -196,7 +201,7 @@ loadfiles.forEach( fnprefix => {
 	var promises = [] ;
 
 	for( var objid in src.elObjects ){
-		const OBJ_NAME_KEY = 'OBJNAME_'+objid.substring(2) ;
+		const OBJ_NAME_KEY = '$OBJNAME_'+objid.substring(2) ;
 		const objname_jp = src.elObjects[objid].objectName ;
 		jp.names[OBJ_NAME_KEY] = objname_jp ;
 		promises.push(jp2en(objname_jp , objname_en=>{
@@ -216,14 +221,14 @@ loadfiles.forEach( fnprefix => {
 			const epcname_jp = epcobj.epcName ;
 			promises.push( new Promise( (ac,rj)=>{
 				jp2en(epcname_jp , epcname_en=>{
-					const EPC_NAME_KEY = 'EPCNAME_'+convPhraseToID(epcname_en) ;
+					const EPC_NAME_KEY = '$EPCNAME_'+convPhraseToID(epcname_en) ;
 					jp.names[EPC_NAME_KEY] = epcname_jp ;
 					en.names[EPC_NAME_KEY] = epcname_en ;
-					epcs_b[epc].epcName = '$'+EPC_NAME_KEY ;
+					epcs_b[epc].epcName = EPC_NAME_KEY ;
 					try {
 						const edoc = eljsonidx[objid].epcs[epc].doc ;
-						const EPC_DOC_KEY = 'EPCDOC_'+objid.substring(2)+'_'+epc.substring(2) ;
-						epcs_b[epc].doc = '$'+EPC_DOC_KEY ;
+						const EPC_DOC_KEY = '$EPCDOC_'+objid.substring(2)+'_'+epc.substring(2) ;
+						epcs_b[epc].doc = EPC_DOC_KEY ;
 						en.names[EPC_DOC_KEY] = edoc.split('<br>').join("\n").split('<br />').join("\n") ;
 						en2jp(edoc , jdoc=>{
 							jp.names[EPC_DOC_KEY] = jdoc.split('<br>').join("\n").split('<br />').join("\n") ;
@@ -244,10 +249,10 @@ loadfiles.forEach( fnprefix => {
 				epcs_b[epc].edt.push(edtobj) ;
 
 				promises.push( jp2en(elemname_jp , elemname_en=>{
-					const ELEM_NAME_KEY = 'ELEMNAME_'+convPhraseToID(elemname_en) ;
+					const ELEM_NAME_KEY = '$ELEMNAME_'+convPhraseToID(elemname_en) ;
 					jp.names[ELEM_NAME_KEY] = elemname_jp ;
 					en.names[ELEM_NAME_KEY] = elemname_en ;
-					edtobj.elementName = '$'+ELEM_NAME_KEY ;
+					edtobj.elementName = ELEM_NAME_KEY ;
 					/*
 					// currently, 'content' property is skipped
 					if( edt.content.numericValue != undefined ){
@@ -274,14 +279,12 @@ loadfiles.forEach( fnprefix => {
 			}) ;
 		})();}
 
-		body.elObjects[objid]	= {objectName:'$'+OBJ_NAME_KEY , epcs:epcs_b} ;
+		body.elObjects[objid]	= {objectName:OBJ_NAME_KEY , epcs:epcs_b} ;
 	}
 
 
 	Promise.all(promises).then(()=>{
 		// Post processing
-		var convToWikiName = src => src.split(' ').map(
-			t=>{return t.charAt(0).toUpperCase() + t.substring(1);} ).join('') ;
 		// add objectid 
 		for( var objid in body.elObjects ){
 			var targ_o = body.elObjects[objid] ;
@@ -290,7 +293,7 @@ loadfiles.forEach( fnprefix => {
 			var newepcs = {} ;
 			for( var epc in targ_o.epcs ){
 				var epcobj = targ_o.epcs[epc] ;
-				newepcs[epc] = { epcType : convToWikiName( en.names[epcobj.epcName.substring(1)] ) } ;
+				newepcs[epc] = { epcType : convToWikiName( en.names[epcobj.epcName] ) } ;
 
 				// Reorder
 				['epcName','epcSize','accessModeAnno','accessModeGet','accessModeSet']
@@ -298,7 +301,7 @@ loadfiles.forEach( fnprefix => {
 				var newedt = [] ;
 				epcobj.edt.forEach( edto=>{
 					// add elementType
-					var newedto = {elementType : convToWikiName( en.names[edto.elementName.substring(1)] )} ;
+					var newedto = {elementType : convToWikiName( en.names[edto.elementName] )} ;
 					['elementName','elementSize','repeatCount','content']
 						.forEach(kn=>{newedto[kn]=edto[kn];}) ;
 					newedt.push(newedto) ;
@@ -309,7 +312,7 @@ loadfiles.forEach( fnprefix => {
 
 
 			// Add objectType
-			const OBJ_NAME_KEY = 'OBJNAME_'+objid.substring(2) ;
+			const OBJ_NAME_KEY = '$OBJNAME_'+objid.substring(2) ;
 			var objname_en = en.names[OBJ_NAME_KEY] ;
 			var objtype = convToWikiName(objname_en) ;
 			if( objtype.indexOf('The')===0 )	objtype = objtype.substring(3) ;
