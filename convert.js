@@ -233,7 +233,7 @@ loadfiles.forEach( fnprefix => {
 						en2jp(edoc , jdoc=>{
 							jp.names[EPC_DOC_KEY] = jdoc.split('<br>').join("\n").split('<br />').join("\n") ;
 						}).then(ac).catch(ac) ;
-					} catch(e){ ac(e); /*console.error(e);*/}
+					} catch(e){ ac(e); /* console.error(e);*/}
 				} )
 			})) ;
 
@@ -296,7 +296,7 @@ loadfiles.forEach( fnprefix => {
 				newepcs[epc] = { epcType : convToWikiName( en.names[epcobj.epcName] ) } ;
 
 				// Reorder
-				['epcName','epcSize','accessModeAnno','accessModeGet','accessModeSet']
+				['epcName','epcSize','accessModeAnno','accessModeGet','accessModeSet','doc']
 					.forEach(kn=>{newepcs[epc][kn]=epcobj[kn];}) ;
 				var newedt = [] ;
 				epcobj.edt.forEach( edto=>{
